@@ -9,15 +9,14 @@ var distPath = path.join(__dirname, 'public');
 var vendorJS = [
   'react',
   'react-dom'
-  // path.join(srcPath, 'js/foundation.js'),
 ];
 
 module.exports = {
   devtool: debug ? "inline-sourcemap" : false,
 
   entry: {
+    vendor: vendorJS,
     app: path.join(srcPath, 'js/app.js'),
-    vendor: vendorJS
   },
 
   module: {
@@ -48,22 +47,33 @@ module.exports = {
   },
 
   output: {
-    // library: 'myClassName',
     path: distPath,
-    filename: 'js/[name]-[hash].js',
+    filename: 'js/[name].js',
     chunkFilename: 'js/[id]-[hash].js',
-    publicPath: '/public/',
   },
   devServer: {
-    contentBase: path.resolve(__dirname, './src'),
+    contentBase: distPath,
+    hot: true,
+    port: 5000,
+    stats: { colors: true },
+    proxy: {
+      '/api/*': {
+        target: 'http://127.0.0.1:3000',
+        secure: false,
+      },
+    },
+    stats: 'errors-only'
   },
   // plugins: debug ? [] : [
   plugins: [
-
         new webpack.optimize.CommonsChunkPlugin({
           name: 'vendor',
-          filename: 'js/vendor-[hash].js'
+          filename: 'js/vendor.js'
+          // filename: 'js/vendor-[hash].js'
         }),
+
+        new webpack.HotModuleReplacementPlugin(),
+
         // new webpack.optimize.OccurrenceOrderPlugin(),
         //
         // new webpack.optimize.UglifyJsPlugin({ mangle: false, sourcemap: false }),
