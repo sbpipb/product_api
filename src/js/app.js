@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom'
 import * as ProductActions from "./actions/ProductActions";
 import ProductStore from "./stores/productStore";
-import ProductForm from "./components/productForm";
+import ProductForm from "./components/productForm/Form.react";
 
 class Layout extends React.Component {
 
@@ -44,18 +44,10 @@ class Layout extends React.Component {
 
   defaultTemplate = (props) => {
     const productListing = this.productListing(this.state.products)
+    console.log({ProductForm})
     return (
       <div>
-
-      <div>
-       <Form state={this.state} onChange={changes => this.setState(changes)}>
-         <Field fieldName='name' label='Name' type={Text}/>
-         <Field fieldName='description' label='description' type={Text}/>
-         <Field fieldName='cost' label='cost' type={Text}/>
-       </Form>
-      </div>
-
-
+      <ProductForm />
 
         <div className="panel panel-default">
             <table className="table table-hover ">
