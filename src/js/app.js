@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom'
 import * as ProductActions from "./actions/ProductActions";
 import ProductStore from "./stores/productStore";
 import ProductForm from "./components/productForm/Form.react";
+import ProductTable from './components/productForm/_table.react'
+
 
 class Layout extends React.Component {
 
@@ -44,32 +46,21 @@ class Layout extends React.Component {
 
   defaultTemplate = (props) => {
     const productListing = this.productListing(this.state.products)
-    console.log({ProductForm})
+    // console.log({ProductForm})
     return (
       <div>
-      <ProductForm />
-
-        <div className="panel panel-default">
-            <table className="table table-hover ">
-            <thead>
-              <tr>
-                <td>Name</td>
-                <td>Price</td>
-                <td>Description</td>
-              </tr>
-            </thead>
-            <tbody>
-              {productListing}
-            </tbody>
-            </table>
-        </div>
+      <ProductForm />        
 
       </div>
     )
   }
 
   render() {
-    return (this.defaultTemplate())
+    return (<div>
+            {this.defaultTemplate()}
+            <ProductTable products={this.state.products}/>
+            </div>
+    )
   }
 
 }
