@@ -31,9 +31,13 @@ class ProductStore extends EventEmitter {
       }
 
       case "RECEIVE_PRODUCTS": {
-        console.log(action, 'receive')
         this.products = action.products['data'];
         this.emit("change");
+        break;
+      }
+
+      case 'DELETE_PRODUCT': {
+        this.emit('DELETE_PRODUCT')
         break;
       }
 
