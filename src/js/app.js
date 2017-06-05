@@ -22,18 +22,29 @@ class Layout extends React.Component {
   updateProducts = () => {
   }
 
-  componentDidMount() {
-    ProductStore.on('change', this.getProducts);
+  changeOnDelete = () => {
     ProductActions.getProducts();
   }
+
+  componentDidMount() {
+    ProductStore.on('change', this.getProducts);
+    ProductStore.on('DELETE_PRODUCT', this.changeOnDelete);
+    ProductActions.getProducts();
+  }
+  
   componentWillUnmount() {
     ProductStore.removeListener('change', this.getProducts);
+    ProductStore.removeListener('DELETE_PRODUCT', this.changeOnDelete);
+  }
+
+  deleteAction = (props, _this) => {
+    ProductActions.deleteProduct(props)
   }
 
   render() {
     return (<div>
               <ProductForm />
-              <ProductTable products={this.state.products}/>
+              <ProductTable products={this.state.products} deleteMethod={this.deleteAction.bind(this  )}/>
             </div>
     )
   }
