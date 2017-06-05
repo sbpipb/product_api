@@ -1,11 +1,20 @@
 import dispatcher from "../dispatcher";
 import axios from "axios";
 
-export function createTodo(product) {
+export function createProduct(product) {
   dispatcher.dispatch({
-    type: "CREATE_PRODUCT",
-    product,
+    type: "CREATING_PRODUCT"
   });
+
+  axios.post("http://127.0.0.1:5000/api/v1/products", product)
+       .then((data) => {
+         dispatcher.dispatch({type: "CREATED_PRODUCT", product: data})
+        //  console.log(data)
+        })
+      .catch((error) => {
+        console.log(error)
+      })
+
 }
 
 export function deleteProduct(id) {
