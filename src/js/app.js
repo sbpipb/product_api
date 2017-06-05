@@ -20,11 +20,9 @@ class Layout extends React.Component {
   }
 
   updateProducts = () => {
-    console.log('update products handler')
   }
 
   componentDidMount() {
-    ProductStore.on('change', this.updateProducts);
     ProductStore.on('change', this.getProducts);
     ProductActions.getProducts();
   }
