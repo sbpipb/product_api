@@ -28,6 +28,18 @@ class ProductStore extends EventEmitter {
       //   break;
       // }
 
+      case 'CREATING_PRODUCT': {
+        this.loading = true
+        this.emit('change');
+      }
+
+      case "CREATED_PRODUCT": {
+        console.log('created')
+        // ProductActions.getProducts()
+        // this.emit('change')
+        break;
+      }
+
       case "RECEIVE_PRODUCTS": {
         this.products = action.products['data'];
         this.emit("change");
