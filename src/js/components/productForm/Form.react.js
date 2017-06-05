@@ -36,21 +36,23 @@ class ProductForm extends React.Component {
     this.setState({price: event.target.value});
   }
 
-  // componentDidMount(){
-  //   ProductStore.on('change', this.onChange);
-  // }
-  //
-  // componentWillUnmount(){
-  //   this.removeListener('change', this.onChange)
-  // }
-  //
-  // onChange = () => {
-  //   // console.log('on change form')
-  // }
+  componentDidMount(){
+    ProductStore.on('CREATED_PRODUCT', this.onChange);
+  }
 
-  // componentWillUnmount(){
-  //
-  // }
+  componentWillUnmount(){
+    ProductStore.removeListener('CREATED_PRODUCT', this.onChange)
+  }
+
+  onChange = () => {
+    this.setState({ product: ProductStore.product });
+    ProductActions.getProducts();
+  }
+
+  componentWillUnmount(){
+
+  }
+
   render() {
     return (
       <div className='col-md-5'>
@@ -58,12 +60,12 @@ class ProductForm extends React.Component {
         <div>
           <div className='row'>
             <div className="form-group col-md-6">
-              <label canTor="exampleInputEmail1">Name</label>
+              <label>Name</label>
               <input onBlur={this.changeName.bind(this)}  type="name" className="form-control" id="exampleInputEmail1" placeholder="name" />
             </div>
 
             <div className="form-group col-md-6">
-              <label canTor="exampleInputPassword1">Price</label>
+              <label>Price</label>
               <input onBlur={this.changePrice.bind(this)}  type="name" className="form-control" id="exampleInputPrice1" placeholder="40.00" />
             </div>
           </div>
@@ -73,7 +75,7 @@ class ProductForm extends React.Component {
               <button className='btn' onClick={this.submitAction.bind(this)}  className="btn btn-default">Submit</button>
             </div>
             <div className="form-group col-md-6">
-              <label canTor="exDescription">Description</label>
+              <label>Description</label>
               <input onBlur={this.changeDescription.bind(this)}  type="description" className="form-control" id="exDescription" placeholder="item is blah blaa lbah" />
             </div>
           </div>
