@@ -1,74 +1,47 @@
 import { EventEmitter } from "events";
+import * as ProductActions from "../actions/ProductActions";
 
 import dispatcher from "../dispatcher";
+
 
 class ProductStore extends EventEmitter {
   constructor() {
     super()
+    // this.state = ProductReducer(DEFAULT_STATE, {})
   }
-
-  // createProduct(product) {
-  //   const id = Date.now();
-  //   this.products.push({
-  //     id,
-  //     product,
-  //     cost,
-  //   });
-  //   this.emit("change");
-  // }
 
   getAll() {
     return this.products;
   }
 
   handleActions(action) {
+    console.log(action.type, 'dispatcher')
     switch(action.type) {
-      // case "CREATE_PRODUCT": {
-      //   this.createProduct(action.text);
-      //   break;
-      // }
-
       case 'CREATING_PRODUCT': {
-        this.loading = true
+        this.isLoading = true
         this.emit('change');
+        break;
       }
 
       case "CREATED_PRODUCT": {
-        console.log('created')
-        // ProductActions.getProducts()
-        // this.emit('change')
+        this.success = true;
+        this.product = action.product;
+        this.emit('CREATED_PRODUCT')
         break;
       }
 
       case "RECEIVE_PRODUCTS": {
+        console.log(action, 'receive')
         this.products = action.products['data'];
         this.emit("change");
         break;
       }
 
-      case 'GET_PRODUCTS': {
-        // this.loading
-        // busTrips.isLoading = true
-        // searchTrip: function (params, callback) {
-        //   Request.get('/api/v2/travel/buses/trip/search', params, callback)
-        // },
+      default:
+        return true;
 
-        // BusTrip.searchTrip(data, (error, response) => {
-        //   busTrips.isLoading = false
-        //   busTrips.hasError = !!error
-        //   busTrips._availableTrips = []
-        //
-        //   if(!busTrips.hasError && response.body.data !== null ) {
-        //     busTrips.availableTrips = response.body['data']
-        //     busTrips.hasError = !!!response.body['success']
-        //   }
-        //
-        //   this.emit('change');
-        // })
-
-
-      }
     }
+    return true;
   }
 
 }
