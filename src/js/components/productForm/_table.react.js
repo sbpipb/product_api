@@ -1,8 +1,7 @@
 import React from 'react'
 
 const Table = props => {
-  const { products } = props
-
+  const { products, deleteMethod } = props
 
   let productList = products.map((product) => {
     let { name, id, price, description} = product
@@ -10,6 +9,7 @@ const Table = props => {
                 <td>{name}</td>
                 <td>${price}</td>
                 <td>{description}</td>
+                <td><button type='button' className='button btn-danger' onClick={deleteMethod.bind(this, id)}>Delete</button></td>
               </tr> )
    })
 
