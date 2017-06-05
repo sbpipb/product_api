@@ -6,7 +6,6 @@ import * as ProductActions from "../../actions/ProductActions";
 class ProductForm extends React.Component {
   constructor() {
     super()
-
     this.state = {
       name: '',
       price: '',
@@ -14,25 +13,15 @@ class ProductForm extends React.Component {
     }
   }
 
-  submit() {
-
-  }
-
-  enableButton = () => {
-
-  }
-
-  disableButton = () => {
-
-  }
-
   submitAction = (event) => {
     let product = {
-      name: this.state.name,
-      price: this.state.price,
-      description: this.state.description,
-    }
-    ProductActions.createTodo(product);
+                    product: {
+                      name: this.state.name,
+                      price: this.state.price,
+                      description: this.state.description,
+                    }
+                  }
+    ProductActions.createProduct(product);
   }
 
   changeName = (event) => {
@@ -47,6 +36,21 @@ class ProductForm extends React.Component {
     this.setState({price: event.target.value});
   }
 
+  // componentDidMount(){
+  //   ProductStore.on('change', this.onChange);
+  // }
+  //
+  // componentWillUnmount(){
+  //   this.removeListener('change', this.onChange)
+  // }
+  //
+  // onChange = () => {
+  //   // console.log('on change form')
+  // }
+
+  // componentWillUnmount(){
+  //
+  // }
   render() {
     return (
       <div className='col-md-5'>
