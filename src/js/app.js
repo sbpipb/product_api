@@ -5,60 +5,37 @@ import ProductStore from "./stores/productStore";
 import ProductForm from "./components/productForm/Form.react";
 import ProductTable from './components/productForm/_table.react'
 
-
 class Layout extends React.Component {
 
   constructor(){
     super()
+    this.state = { products: [] };
     this.getProducts = this.getProducts.bind(this);
-    this.state = {
-      products: [],
-    };
   }
 
   getProducts() {
-    let products = ProductStore.getAll()
     this.setState({
-      products: products
+      products: ProductStore.getAll()
     })
   }
 
-  componentWillMount() {
+  updateProducts = () => {
+    console.log('update products handler')
+  }
+
+  componentDidMount() {
+    ProductStore.on('change', this.updateProducts);
     ProductStore.on('change', this.getProducts);
     ProductActions.getProducts();
   }
-
   componentWillUnmount() {
-    ProductStore.removeListener("change", this.getProducts);
-  }
-
-  productListing = (products) => {
-    let elements = products.map((product) => {
-      let { name, id, price, description} = product
-       return ( <tr key={id}><td>{name}</td>
-                             <td>${price}</td>
-                             <td>{description}</td>
-                </tr>
-              )
-     })
-    return (elements)
-  }
-
-  defaultTemplate = (props) => {
-    const productListing = this.productListing(this.state.products)
-    // console.log({ProductForm})
-    return (
-      <div>
-      <ProductForm />        
-
-      </div>
-    )
+    ProductStore.removeListener('change', this.getProducts);
   }
 
   render() {
     return (<div>
-            {this.defaultTemplate()}
-            <ProductTable products={this.state.products}/>
+              <ProductForm />
+              <ProductTable products={this.state.products}/>
             </div>
     )
   }
