@@ -1,55 +1,76 @@
 import React from 'react';
 import ReactDOM from 'react-dom'
-import * as ProductActions from "./actions/ProductActions";
-import ProductStore from "./stores/productStore";
-import ProductForm from "./components/productForm/Form.react";
-import ProductTable from './components/productForm/_table.react'
 
-class Layout extends React.Component {
+import {
+  BrowserRouter as Router,
+  Route,
+  Link
+} from 'react-router-dom'
 
-  constructor(){
-    super()
-    this.state = { products: [] };
-    this.getProducts = this.getProducts.bind(this);
-  }
-
-  getProducts() {
-    this.setState({
-      products: ProductStore.getAll()
-    })
-  }
-
-  updateProducts = () => {
-  }
-
-  changeOnDelete = () => {
-    ProductActions.getProducts();
-  }
-
-  componentDidMount() {
-    ProductStore.on('change', this.getProducts);
-    ProductStore.on('DELETE_PRODUCT', this.changeOnDelete);
-    ProductActions.getProducts();
-  }
-  
-  componentWillUnmount() {
-    ProductStore.removeListener('change', this.getProducts);
-    ProductStore.removeListener('DELETE_PRODUCT', this.changeOnDelete);
-  }
-
-  deleteAction = (props, _this) => {
-    ProductActions.deleteProduct(props)
-  }
-
-  render() {
-    return (<div>
-              <ProductForm />
-              <ProductTable products={this.state.products} deleteMethod={this.deleteAction.bind(this  )}/>
-            </div>
-    )
-  }
-
-}
-
+import Product from './pages/Product'
 const app = document.getElementById('app');
-ReactDOM.render(<Layout />, app)
+const Home = () => (
+  <div>
+    <h2>Home</h2>
+  </div>
+)
+
+const About = () => (
+  <div>
+    <h2>About</h2>
+  </div>
+)
+
+const Topic = ({ match }) => (
+  <div>
+    <h3>{match.params.topicId}</h3>
+  </div>
+)
+
+const Topics = ({ match }) => (
+  <div>
+    <h2>Topics</h2>
+    <ul>
+      <li>
+        <Link to={`${match.url}/rendering`}>
+          Rendering with React
+        </Link>
+      </li>
+      <li>
+        <Link to={`${match.url}/components`}>
+          Components
+        </Link>
+      </li>
+      <li>
+        <Link to={`${match.url}/props-v-state`}>
+          Props v. State
+        </Link>
+      </li>
+    </ul>
+
+    <Route path={`${match.url}/:topicId`} component={Topic}/>
+    <Route exact path={match.url} render={() => (
+      <h3>Please select a topic.</h3>
+    )}/>
+  </div>
+)
+
+const BasicExample = () => (
+  <Router>
+    <div>
+      <ul>
+        <li><Link to="/">Home</Link></li>
+        <li><Link to="/about">About</Link></li>
+        <li><Link to="/topics">Topics</Link></li>
+      </ul>
+
+      <hr/>
+
+      <Route exact path="/" component={Product}/>
+      <Route path="/about" component={About}/>
+      <Route path="/topics" component={Topics}/>
+    </div>
+  </Router>
+)
+export default BasicExample
+ReactDOM.render(<BasicExample />, app)
