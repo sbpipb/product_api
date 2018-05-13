@@ -34,11 +34,12 @@ end
 
 group :development, :test do
   gem 'byebug'
-  gem 'rspec-rails', '~> 3.5'
+#   gem 'rspec-rails', '~> 3.5'
   gem 'capybara', '~> 2.5'
   gem 'factory_girl_rails', '~> 4.5.0'
 end
 
+  gem 'rspec-rails', '~> 3.5'
 group :development do
   gem 'web-console', '~> 2.0'
   gem 'spring'
