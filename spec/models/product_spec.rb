@@ -30,8 +30,8 @@ describe Product do
 
       context 'is duplicated' do
         let (:error) {
-          FactoryGirl.create(:product, name: 'product_name')
-          FactoryGirl.build(:product, name: 'product_name')
+          FactoryGirl.create(:product, name: 'product_name', price: 1)
+          FactoryGirl.build(:product, name: 'product_name', price: 1)
         }
         subject { -> { error } }
         it { should raise_error ActiveRecord::RecordInvalid }
