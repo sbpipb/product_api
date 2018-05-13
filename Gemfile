@@ -35,7 +35,10 @@ end
 group :development, :test do
   gem 'byebug'
 #   gem 'rspec-rails', '~> 3.5'
-  gem 'capybara', '~> 2.5'
+gem 'rack-mini-profiler', require: false
+  
+
+gem 'capybara', '~> 2.5'
   gem 'factory_girl_rails', '~> 4.5.0'
 end
 
